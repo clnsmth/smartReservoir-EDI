@@ -1,6 +1,6 @@
 # smartReservoir-EDI
 
-A collaboration between [Smart Reservoirs (SR)](http://smartreservoir.org) and the Environmental Data Initiative (EDI).
+A collaboration between [Smart Reservoirs (SR)](http://smartreservoir.org) and the [Environmental Data Initiative (EDI)](https://environmentaldatainitiative.org).
 
 ## Contents
 
