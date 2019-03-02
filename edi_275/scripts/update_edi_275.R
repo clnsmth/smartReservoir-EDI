@@ -1,39 +1,11 @@
 
-
-# An example script demonstrating automated updates of time series data
-# and upload to the Environmental Data Initiative Data Repository
+# An example script demonstrating automated updates of data package edi_275
 #
 # The following tasks are performed by this script:
-# 1. Download raw time series data files from the project server
-# 2. Aggregate raw data files into a single file
-# 3. Run quality control checks on aggregated data
-# 4. Download metadata templates configured for aggregated data from project server
-# 5. Update the EML metadata file for the aggregated data
-# 6. Upload the new EML file and aggregated data to the project server
-# 7. Upload the new EML file and aggregated data to EDI
-
-
-
-
-# Install and load libraries required by this workflow ------------------------
-
-# Install and load CRAN packages
-
-# install.packages('devtools')
-# install.packages('stringr')
-# install.packages('ssh')
-
-library(devtools)
-library(stringr)
-library(ssh)
-
-# Install and load GitHub packages
-
-# devtools::install_github('EDIorg/EDIutils')
-# devtools::install_github('EDIorg/EMLassemblyline')
-
-library(EDIutils)
-library(EMLassemblyline)
+# 1. Identify newest model output file
+# 2. Extract temporal attributes of newest file
+# 3. Update the EML metadata file for the newest model output
+# 4. Update edi_275 in EDI
 
 
 
@@ -48,7 +20,7 @@ library(EMLassemblyline)
 # replace the EDIutils::api_update_data_package function (~ line 301) with 
 # EDIutils::api_create_data_package
 
-package.id <- 'edi.151'
+package.id <- 'edi.275'
 
 # Name of project server that will be appended to user.serv (e.g. server.name = @some.server.org)
 
@@ -56,11 +28,7 @@ server.name <- '@colin.edirepository.org'
 
 # Path to data package edi_151 files on project server
 
-server.path <- '/auto-proc-pub/time_series_update'
-
-# Path to where edi_151 files will be written locally for processing
-
-local.path <- 'C:/Users/Colin/Documents/EDI/data_sets/auto-proc-pub/time_series_update'
+server.path <- '/clnsmth/smartReservoir-EDI/edi_275'
 
 
 
@@ -70,13 +38,6 @@ local.path <- 'C:/Users/Colin/Documents/EDI/data_sets/auto-proc-pub/time_series_
 # Messages are used throughout this script to report on workflow status.
 
 message(paste0('UPDATING DATA PACKAGE ', package.id))
-
-# Enter user name and password of project server from which raw data are 
-# downloaded, processed data are uploaded to, and from which the EDI Data 
-# Repository will download the EML file and aggregated data file.
-
-server.user.name <- readline('Enter server user name: ')
-server.user.pass <- readline('Enter server user password: ')
 
 # Enter user name, password, and affiliation for your EDI user account
 
@@ -91,153 +52,23 @@ pasta.environment <- 'staging'
 
 
 
-# Download raw time series data files from project server ---------------------
+# Extract metadata elements to update -----------------------------------------
 
-# Connect to project server
+new_file_name <- 'test_H_2018710_2018711_F_16_2019125_12_47_EDI.nc'
 
-message('Connecting to server')
+new_file_description <- 'place holder'
 
-con <- ssh::ssh_connect(
-  paste0(
-    server.user.name, 
-    '@',
-    server.name
-  ),
-  passwd = server.user.pass
-)
+forecast_period <- 'place holder'
 
-# Download raw data
-
-message('Downloading raw data')
-
-ssh::scp_download(
-  session = con,
-  files = server.path,
-  to = local.path, 
-  verbose = F
-)
-
-
-
-
-# Aggregate the raw data files into a single file -----------------------------
-
-# Aggregate raw data from local.path
-
-message('Aggregating raw data')
-
-files_raw <- list.files(
-  paste0(
-    local.path,
-    '/edi_151/data/raw'
-  )
-)
-
-files_counts <- files_raw[
-  stringr::str_detect(
-    files_raw,
-    'taxa_counts'
-  )
-  ]
-
-files_photos <- files_raw[
-  stringr::str_detect(
-    files_raw,
-    'taxa_photos'
-  )
-  ]
-
-counts <- lapply(
-  paste0(
-    local.path,
-    '/edi_151/data/raw',
-    '/',
-    files_counts
-  ), 
-  read.csv, 
-  as.is = TRUE
-)
-
-counts <- dplyr::bind_rows(counts)
-
-photos <- lapply(
-  paste0(
-    local.path,
-    '/edi_151/data/raw',
-    '/',
-    files_photos
-  ), 
-  read.csv, 
-  as.is = TRUE
-)
-
-photos <- dplyr::bind_rows(photos)
-
-
-
-
-# Run quality control checks on the aggregated data ---------------------------
-
-# Run quality control
-
-message('Running quality control checks')
-
-source(
-  paste0(
-    local.path,
-    '/edi_151/scripts/quality_control_edi_151.R'
-  )
-)
-
-# Write aggregated and QC'd data to local.path.processed (ADD YOUR DATA WRITING CODE HERE)
-
-message('Writing processed data to file')
-
-write.csv(
-  counts, 
-  paste0(
-    local.path,
-    '/edi_151/data/processed/taxa_counts.csv'
-  ), 
-  row.names = FALSE
-)
-
-write.csv(
-  photos, 
-  paste0(
-    local.path,
-    '/edi_151/data/processed/taxa_photos.csv'
-  ), 
-  row.names = FALSE
+new_temporal_coverage <- c(
+  '2019-01-01',
+  '2019-01-02'
 )
 
 
 
 
 # Update the EML metadata file for the aggregated data ------------------------
-
-message('Creating new EML')
-
-# Because the temporal coverage of the dataset is expanding with the time series
-# update, we need to extract the temporal coverage range from data.
-
-x <- read.csv(
-  paste0(
-    local.path,
-    '/edi_151/data/processed/taxa_photos.csv'
-  )
-)
-
-new_temporal_coverage <- c(
-  paste0(
-    as.character(min(x$Year)), 
-    '-01-01'
-  ),
-  paste0(
-    as.character(max(x$Year)), 
-    '-01-01'
-  )
-)
 
 # Get new package revision number. Check the EDI Repository for the most recent
 # revision number and add 1.
@@ -262,81 +93,31 @@ new_package_id <- paste0(package.id, '.', revision)
 # Create EML metadata file
 
 EMLassemblyline::make_eml(
-  path = paste0(local.path,'/edi_151/metadata_templates'),
-  data.path = paste0(local.path,'/edi_151/data/processed'),
-  eml.path = paste0(local.path,'/edi_151/eml'),
-  dataset.title = 'McMurdo Sound, Antarctica: Cape Armitage, sponge abundance and cover and photo ID information',
-  data.files = c("taxa_counts.csv", "taxa_photos.csv"),
-  data.files.description = c('Benthic invertebrate photo metadata of McMurdo Sound, Antarctica','Benthic invertebrates of McMurdo Sound, Antarctica'),
-  data.files.url = paste0(server.path,'/edi_151/data'),
+  path = paste0(server.path,'/metadata_templates'),
+  data.path = paste0(server.path,'/data'),
+  eml.path = paste0(server.path,'/eml'),
+  dataset.title = paste0('Smart Reservoir Forecast (', forecast_period, ')'),
+  other.entity = new_file_name,
+  other.entity.description = new_file_description,
+  data.files.url = paste0(server.path,'/data'),
   temporal.coverage = new_temporal_coverage,
-  geographic.coordinates = c('-77.859626', '166.702327', '-77.863072', '166.675889'),
-  geographic.description = 'Cape Armitage, McMurdo Sound, Antarctica',
+  geographic.coordinates = c('37.309589', '-79.836009', '37.30266', '-79.839249'),
+  geographic.description = 'Falling Creek Reservoir is located in Vinton, Virginia, USA',
   maintenance.description = 'Ongoing',
-  user.id = pasta.user.name,
-  affiliation = pasta.affiliation,
+  user.id = c('smartreservoir', 'csmith'),
+  affiliation = c('EDI', 'LTER'),
   package.id = new_package_id
 )
 
 
 
 
-# Upload the aggregated data and the new EML file to the project server -------
-
-message('Uploading new processed data and EML to server')
-
-# Upload the new data tables
-
-ssh::scp_upload(
-  session = con,
-  files = paste0(
-    local.path,
-    '/edi_151/data/processed'
-  ),
-  to = paste0(
-    server.path,
-    '/edi_151/data/processed'), 
-  verbose = F
-)
-
-# Upload EML file
-
-ssh::scp_upload(
-  session = con,
-  files = paste0(
-    local.path,
-    '/edi_151/eml/', 
-    new_package_id, 
-    '.xml'
-  ),
-  to = paste0(
-    server.path,
-    '/edi_151/eml'
-  ),
-  verbose = F
-)
-
-# Disconnect from server
-
-ssh::ssh_disconnect(con)
-
-
-
-
 # Upload the new EML file and aggregated data to EDI --------------------------
-
-message(
-  paste0(
-    'Uploading data package ',
-    new_package_id,
-    ' to EDI.'
-  )
-)
 
 EDIutils::api_update_data_package(
   path = paste0(
-    local.path,
-    '/edi_151/eml/', 
+    server.path,
+    '/eml/', 
     new_package_id, 
     '.xml'
   ),
