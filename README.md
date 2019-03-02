@@ -4,6 +4,6 @@ A collaboration between [Smart Reservoirs (SR)](http://smartreservoir.org) and t
 
 ## Contents
 
-### edi_131
+### edi_275
 
 Directory tree containing files supporting automated upload of SR data products to the EDI Data Repository.
