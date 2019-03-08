@@ -24,11 +24,11 @@ package.id <- 'edi.275'
 
 # Name of project server that will be appended to user.serv (e.g. server.name = @some.server.org)
 
-server.name <- '@colin.edirepository.org' 
+server.name <- '@regan.edirepository.org' 
 
 # Path to data package edi_151 files on project server
 
-server.path <- '/clnsmth/smartReservoir-EDI/edi_275'
+server.path <- '/data/edi_275'
 
 
 
