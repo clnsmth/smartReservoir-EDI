@@ -1,4 +1,5 @@
-# Install dependencies for 'update_edi_275.R'
+# R packages required by 'update_edi_275.R'
+# Run this script after installing required server libraries in 'install_ubuntu_dependencies.md'
 
 # CRAN libraries
 
