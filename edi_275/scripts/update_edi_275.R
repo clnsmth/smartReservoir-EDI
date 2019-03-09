@@ -12,6 +12,20 @@
 
 # Parameterize this workflow --------------------------------------------------
 
+# Load dependencies
+
+library(EMLassemblyline)
+library(EML)
+library(stringr)
+library(stringi)
+library(reader)
+library(readr)
+library(xml2)
+library(httr)
+library(knitr)
+library(rmarkdown)
+library(EDIutils)
+
 # Identifier of EDI data package to update (e.g. 'edi.151'). Don't include a 
 # revision number, one is automatically prescribed later. NOTE: A prior version 
 # of this data package must exist in the EDI Data Repository. This is a 
@@ -28,7 +42,7 @@ server.name <- '@regan.edirepository.org'
 
 # Path to data package edi_151 files on project server
 
-server.path <- '/data/edi_275'
+server.path <- '/home/csmith/data/edi_275'
 
 
 
