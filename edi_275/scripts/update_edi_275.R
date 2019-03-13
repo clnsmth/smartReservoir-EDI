@@ -131,9 +131,7 @@ EMLassemblyline::make_eml(
 EDIutils::api_update_data_package(
   path = paste0(
     server.path,
-    '/eml/', 
-    new_package_id, 
-    '.xml'
+    '/eml'
   ),
   package.id = new_package_id,
   environment = pasta.environment,
