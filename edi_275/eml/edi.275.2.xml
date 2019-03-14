@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="eml://ecoinformatics.org/eml-2.1.1" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packageId="edi.275.2" system="edi" xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1  http://nis.lternet.edu/schemas/EML/eml-2.1.1/eml.xsd">
+  <access scope="document" order="allowFirst" authSystem="https://pasta.edirepository.org/authentication">
+    <allow>
+      <principal>uid=smartreservoir,o=EDI,dc=edirepository,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>uid=csmith,o=LTER,dc=ecoinformatics,dc=org</principal>
+      <permission>all</permission>
+    </allow>
+    <allow>
+      <principal>public</principal>
+      <permission>read</permission>
+    </allow>
+  </access>
+  <dataset>
+    <title>Smart Reservoir Forecast (place holder)</title>
+    <creator>
+      <individualName>
+        <givenName>placeholder</givenName>
+        <givenName>placeholder</givenName>
+        <surName>placeholder</surName>
+      </individualName>
+      <organizationName>placeholder</organizationName>
+      <electronicMailAddress>placeholder</electronicMailAddress>
+    </creator>
+    <pubDate>2019-03-14</pubDate>
+    <abstract>
+      <para>
+  This is a placeholder abstract.
+</para>
+    </abstract>
+    <keywordSet>
+      <keyword>reservoir</keyword>
+      <keyword>water properties</keyword>
+      <keyword>water quality</keyword>
+      <keyword>freshwater</keyword>
+      <keyword>ecological forecasting</keyword>
+      <keyword>Smart Reservoirs</keyword>
+      <keyword>Smart Water Systems</keyword>
+      <keyword>Smart and Connected Communities</keyword>
+    </keywordSet>
+    <intellectualRights>
+      <para>
+  This data package is released to the “public domain” under Creative
+  Commons CC0 1.0 “No Rights Reserved” (see:
+  https://creativecommons.org/publicdomain/zero/1.0/). It is considered
+  professional etiquette to provide attribution of the original work if
+  this data package is shared in whole or by individual components. A
+  generic citation is provided for this data package on the website
+  https://portal.edirepository.org (herein “website”) in the summary
+  metadata page. Communication (and collaboration) with the creators of
+  this data package is recommended to prevent duplicate research or
+  publication. This data package (and its components) is made available
+  “as is” and with no warranty of accuracy or fitness for use. The
+  creators of this data package and the website shall not be liable for
+  any damages resulting from misinterpretation or misuse of the data
+  package or its components. Periodic updates of this data package may
+  be available from the website. Thank you.
+</para>
+    </intellectualRights>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Falling Creek Reservoir is located in Vinton, Virginia, USA</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>-79.839249</westBoundingCoordinate>
+          <eastBoundingCoordinate>-79.836009</eastBoundingCoordinate>
+          <northBoundingCoordinate>37.309589</northBoundingCoordinate>
+          <southBoundingCoordinate>37.30266</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>2019-01-01</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2019-01-02</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+    </coverage>
+    <maintenance>
+      <description>Ongoing</description>
+    </maintenance>
+    <contact>
+      <individualName>
+        <givenName>placeholder</givenName>
+        <givenName>placeholder</givenName>
+        <surName>placeholder</surName>
+      </individualName>
+      <organizationName>placeholder</organizationName>
+      <electronicMailAddress>placeholder</electronicMailAddress>
+    </contact>
+    <methods>
+      <methodStep>
+        <description>
+          <para>
+  A placeholder methods.
+</para>
+        </description>
+      </methodStep>
+    </methods>
+    <project>
+      <title>placeholder</title>
+      <personnel>
+        <individualName>
+          <givenName>placeholder</givenName>
+          <surName>placeholder</surName>
+        </individualName>
+        <electronicMailAddress>placeholder</electronicMailAddress>
+        <role>Principal Investigator</role>
+      </personnel>
+      <funding>placeholder: placeholder</funding>
+    </project>
+    <otherEntity>
+      <entityName>place holder</entityName>
+      <entityDescription>place holder</entityDescription>
+      <physical>
+        <objectName>test_H_2018710_2018711_F_16_2019125_12_47_EDI.nc</objectName>
+        <size unit="bytes">5007673</size>
+        <authentication method="MD5">d52f930704215a247a4a4d65eb47a252</authentication>
+        <dataFormat>
+          <externallyDefinedFormat>
+            <formatName>unknown</formatName>
+          </externallyDefinedFormat>
+        </dataFormat>
+        <distribution>
+          <online>
+            <url>https://regan.edirepository.org/data/edi_275/data/test_H_2018710_2018711_F_16_2019125_12_47_EDI.nc</url>
+          </online>
+        </distribution>
+      </physical>
+      <entityType>unknown</entityType>
+    </otherEntity>
+  </dataset>
+</eml:eml>

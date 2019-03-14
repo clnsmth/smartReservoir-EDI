@@ -36,13 +36,11 @@ library(EDIutils)
 
 package.id <- 'edi.275'
 
-# Name of project server that will be appended to user.serv (e.g. server.name = @some.server.org)
-
-server.name <- '@regan.edirepository.org' 
-
 # Path to data package edi_151 files on project server
 
 server.path <- '/home/csmith/data/edi_275'
+
+server.url <- 'https://regan.edirepository.org/data/edi_275'
 
 
 
@@ -113,7 +111,7 @@ EMLassemblyline::make_eml(
   dataset.title = paste0('Smart Reservoir Forecast (', forecast_period, ')'),
   other.entity = new_file_name,
   other.entity.description = new_file_description,
-  data.files.url = paste0(server.path,'/data'),
+  data.url = paste0(server.url,'/data'),
   temporal.coverage = new_temporal_coverage,
   geographic.coordinates = c('37.309589', '-79.836009', '37.30266', '-79.839249'),
   geographic.description = 'Falling Creek Reservoir is located in Vinton, Virginia, USA',
