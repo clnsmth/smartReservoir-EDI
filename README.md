@@ -6,4 +6,4 @@ A collaboration between [Smart Reservoirs (SR)](http://smartreservoir.org) and t
 
 ### edi_275
 
-Directory tree containing files supporting automated upload of SR data products to the EDI Data Repository.
+Directory of files demonstrating automated upload of SR data products to the EDI Data Repository. This workflow is implemented on Ubuntu Server 18.04.
