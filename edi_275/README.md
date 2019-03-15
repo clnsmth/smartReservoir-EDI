@@ -2,7 +2,7 @@
 
 ### Contents
 
-* __/data__ Files to be archived
-* __/EML__ EML metadata for entities of `/data`
+* __/data__ Data to be archived
+* __/EML__ EML metadata
 * __/metadata_templates__ Template files from which EML is created
-* __/scripts__ Scripts for this workflow
+* __/scripts__ Scripts to execute this workflow
