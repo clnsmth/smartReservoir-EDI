@@ -1,11 +1,11 @@
 
-# An example script demonstrating automated updates of data package edi_275
+# This script demonstrates automated updates of an EDI data package (edi.275)
 #
 # The following tasks are performed by this script:
-# 1. Identify newest model output file
-# 2. Extract temporal attributes of newest file
-# 3. Update the EML metadata file for the newest model output
-# 4. Update edi_275 in EDI
+# 1. Identify newest data file
+# 2. Extract temporal attributes from the newest data file
+# 3. Update the EML metadata for the newest data file
+# 4. Upload the revised data and metadata to EDI
 
 
 
@@ -26,7 +26,7 @@ library(knitr)
 library(rmarkdown)
 library(EDIutils)
 
-# Identifier of EDI data package to update (e.g. 'edi.151'). Don't include a 
+# Identifier of EDI data package to update (e.g. 'edi.275'). Don't include a 
 # revision number, one is automatically prescribed later. NOTE: A prior version 
 # of this data package must exist in the EDI Data Repository. This is a 
 # "revision" after all :) ... To upload the initial version of a data package, 
@@ -36,9 +36,12 @@ library(EDIutils)
 
 package.id <- 'edi.275'
 
-# Path to data package edi_151 files on project server
+# Path to server hosted directories 'data', 'eml', 'metadata_template', and '
+# scripts'
 
 server.path <- '/home/csmith/data/edi_275'
+
+# Publicly readable URL corresponding to 'server.path'
 
 server.url <- 'https://regan.edirepository.org/data/edi_275'
 
@@ -57,25 +60,35 @@ pasta.user.name <- readline('Enter EDI user name: ')
 pasta.user.pass <- readline('Enter EDI user password: ')
 pasta.affiliation <- readline('Enter EDI user affiliation (LTER or EDI): ')
 
-# Environment of EDI Data Repository to create the revision in.
+# Environment of EDI Data Repository to create the revision in. Use 'staging'
+# for testing, and 'production' for final publications.
 
 pasta.environment <- 'staging'
 
 
 
 
-# Extract metadata elements to update -----------------------------------------
+# Identify new file and extract corresponding metadata ------------------------
+# The following variables should be automatically defined.
+
+# Name of new file to archive
 
 new_file_name <- 'test_H_2018710_2018711_F_16_2019125_12_47_EDI.nc'
 
+# Description of new file to archive
+
 new_file_description <- 'place holder'
 
-forecast_period <- 'place holder'
+# Temporal coverage of data to archive
 
 new_temporal_coverage <- c(
   '2019-01-01',
   '2019-01-02'
 )
+
+# Text to add to the data package title describing the temporal coverage
+
+forecast_period <- 'place holder'
 
 
 
@@ -83,7 +96,7 @@ new_temporal_coverage <- c(
 # Update the EML metadata file for the aggregated data ------------------------
 
 # Get new package revision number. Check the EDI Repository for the most recent
-# revision number and add 1.
+# revision and add 1.
 
 revision <- EDIutils::api_list_data_package_revisions(
   scope = stringr::str_remove(
@@ -102,7 +115,7 @@ revision <- as.character(as.numeric(revision) + 1)
 
 new_package_id <- paste0(package.id, '.', revision)
 
-# Create EML metadata file
+# Create the EML metadata file
 
 EMLassemblyline::make_eml(
   path = paste0(server.path,'/metadata_templates'),
@@ -124,7 +137,7 @@ EMLassemblyline::make_eml(
 
 
 
-# Upload the new EML file and aggregated data to EDI --------------------------
+# Upload the new data and EML to EDI ------------------------------------------
 
 EDIutils::api_update_data_package(
   path = paste0(
