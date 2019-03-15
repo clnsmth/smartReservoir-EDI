@@ -139,6 +139,8 @@ EMLassemblyline::make_eml(
 
 # Upload the new data and EML to EDI ------------------------------------------
 
+message('Uploading to EDI')
+
 EDIutils::api_update_data_package(
   path = paste0(
     server.path,
